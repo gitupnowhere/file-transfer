@@ -9,9 +9,7 @@
 #include <unordered_map>
 #include "protocol.h"
 
-enum states {connected, identifying, ready, uploading, downloading};
-///
-/// \struct
+enum states {connected, identifying, data_linking, ready, uploading, downloading};
 
 struct user_unit {
     /// 接收控制信息的套接字
