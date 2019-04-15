@@ -24,9 +24,6 @@ struct user_unit {
     /// 当前工作目录
     char pwd[PATH_MAX + 4];
 
-    /// 接收数据的端口
-    int data_port;
-
     /// 用于接收数据的套接字
     int data_sock;
 
@@ -39,12 +36,14 @@ struct user_unit {
 /// \param user
 /// \param out_string 用于储存结果的字符串
 /// \param str_size 储存区域的大小
-void password(const user_unit * user, char * out_string, size_t str_size);
+/// \return 正常返回0 错误返回-1
+int password(const user_unit * user, char * out_string, size_t str_size);
 
 /// \brief 修改用户密码
 /// \param user 用户
 /// \param new_password 储存新密码的字符串
-void change_password(const user_unit * user, char * new_password);
+/// \return 正常返回0 错误返回-1
+int change_password(const user_unit * user, char * new_password);
 
 
 #endif // user.hpp
