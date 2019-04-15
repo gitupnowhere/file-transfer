@@ -14,7 +14,7 @@ enum states {connected, identifying, ready, uploading, downloading};
 /// \struct
 
 struct user_unit {
-    /// 用户
+    /// 接收控制信息的套接字
     int sock;
 
     /// 用户名
@@ -26,7 +26,10 @@ struct user_unit {
     /// 当前工作目录
     char pwd[PATH_MAX + 4];
 
-    ///
+    /// 接收数据的端口
+    int data_port;
+
+    /// 用于接收数据的套接字
     int data_sock;
 
     /// stream_id到FILE*的映射
