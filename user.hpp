@@ -31,6 +31,20 @@ struct user_unit {
     std::unordered_map<stream_id_t, FILE*> fps;
 };
 
+inline bool operator==(const user_unit &lhs, const user_unit &rhs) {
+    return lhs.sock == rhs.sock;
+}
+
+inline bool operator!=(const user_unit &lhs, const user_unit &rhs) {
+    return !(rhs == lhs);
+}
+
+template <>
+struct std::hash<user_unit> {
+    size_t operator() (const user_unit & user) {
+        return user.sock;
+    }
+};
 
 /// \brief 由用户名查询密码
 /// \param user
