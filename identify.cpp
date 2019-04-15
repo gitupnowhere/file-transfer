@@ -25,10 +25,12 @@ int login(user_unit * user, char * username, std::unordered_map<user_unit, char*
 
 /// \brief 核查质询结果
 /// \details
+/// 在identifying状态下
 /// 调用password函数获知用户密码
 /// 计算chap的正确结果
 /// 将回应结果与其比对
 /// 判断用户是否通过
+/// 若通过则转到data_linking状态
 /// 无论用户是否通过或发生任何错误
 /// 必须调用free将chap_map中指针指向的内存释放
 /// 必须调用chap_map.erase擦出对应元素
