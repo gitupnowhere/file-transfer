@@ -108,6 +108,8 @@ void str_to_proto(const void * buffer, size_t buffer_size, struct protocol_head_
 #define	PUSH        0x31
 /// \brief 对于数据回应
 #define	DATA_ACK    0x32
+/// \brief 数据传输结束
+#define	DATA_END    0x33
 
 /// \brief 修改密码
 /// \details 在数据部分按照<用户名><空格><新密码>的方式填写
