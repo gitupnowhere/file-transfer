@@ -9,11 +9,11 @@
 #include <unordered_map>
 #include "protocol.h"
 
-enum states {connected, identifying, data_linking, ready, uploading, downloading};
+enum states {connected, identifying, data_linking, ready};
 
 struct user_unit {
     /// 接收控制信息的套接字
-    int sock;
+    const int sock;
 
     /// 用户名
     char username[NAME_MAX + 4];
@@ -27,8 +27,13 @@ struct user_unit {
     /// 用于接收数据的套接字
     int data_sock;
 
-    /// stream_id到FILE*的映射
-    std::unordered_map<stream_id_t, FILE*> fps;
+    /// 下载的stream_id到只读FILE*的映射
+    std::unordered_map<stream_id_t, FILE*> read_fps;
+
+    /// 上传的stream_id到只读FILE*的映射
+    std::unordered_map<stream_id_t, FILE*> write_fps;
+
+    user_unit(int sock);
 };
 
 inline bool operator==(const user_unit &lhs, const user_unit &rhs) {

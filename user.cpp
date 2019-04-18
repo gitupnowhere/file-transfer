@@ -3,6 +3,13 @@
 
 #include "user.hpp"
 
+user_unit::user_unit(int sock) : sock(sock) {
+    username[0] = '\0';
+    state = connected;
+    pwd[0] = '\0';
+    data_sock = -1;
+}
+
 /// \brief 由用户名查询密码
 /// \param user 用户
 /// \param out_string 用于储存结果的字符串
