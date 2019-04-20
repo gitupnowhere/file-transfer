@@ -14,7 +14,7 @@ add_executable(file_transfer
         main.cpp
         protocol.c
         protocol.h
-        transmit.cpp
-        transmit.hpp
+        transport.cpp
+        transport.hpp
         user.cpp
         user.hpp)

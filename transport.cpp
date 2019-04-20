@@ -2,7 +2,14 @@
 ///
 
 #include "transmit.hpp"
+#include "user.hpp"
+#include <unordered_map>
 
+std::unordered_map <uint64_t, char *> buffers;
+
+inline uint64_t key(const user_unit & user, stream_id_t stream_id) {
+    return (user.sock << 8) + stream_id;
+}
 
 /// \brief 处理put请求
 /// \details
@@ -33,5 +40,23 @@ int put(user_unit * user, char * filename) {
 /// \param filename 文件名
 /// \return 正常返回0 错误返回-1
 int get(user_unit * user, uint8_t stream_id, char * filename) {
+    return 0;
+}
+
+/// \brief 处理上传数据请求
+/// \details
+/// 从data_sock接收数据
+///
+///
+/// \param user 待处理事件的用户
+/// \return 正常返回0 错误返回-1
+int upload(user_unit * user) {
+    return 0;
+}
+
+/// \brief 处理下载数据请求
+/// \param user 待处理事件的用户
+/// \return 正常返回0 错误返回-1
+int download(user_unit * user) {
     return 0;
 }
