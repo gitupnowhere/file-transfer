@@ -5,9 +5,11 @@
 #define USER_HPP
 
 #include <stdio.h>
+#include <time.h>
 #include <limits.h>
 #include <unordered_map>
 #include "protocol.h"
+#include "config.hpp"
 
 enum states {connected, identifying, data_linking, ready};
 
@@ -30,10 +32,19 @@ struct user_unit {
     /// 下载的stream_id到只读FILE*的映射
     std::unordered_map<stream_id_t, FILE*> read_fps;
 
+    /// 记录传输超时的时刻
+    std::unordered_map<stream_id_t, clock_t> timeout_stamp;
+
     /// 上传的stream_id到只读FILE*的映射
     std::unordered_map<stream_id_t, FILE*> write_fps;
 
-    user_unit(int sock);
+    /// 用于缓存未处理完的报文的头部的信息
+    protocol_head recv_protocol_head_buffer;
+
+    /// 接收缓存
+    char recv_buffer[buffer_size];
+
+    explicit user_unit(int sock);
 };
 
 inline bool operator==(const user_unit &lhs, const user_unit &rhs) {
