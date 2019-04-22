@@ -40,7 +40,7 @@ struct protocol_head {
 /// \param head 已填写好的报文头部
 /// \param buffer 储存转换结果的缓冲区
 /// \param buffer_size 缓冲区大小
-/// \return 正常返回0 错误返回-1
+/// \return 正常时返回转换的字节数 错误返回-1
 int proto_to_str(const struct protocol_head * head, void * buffer, size_t buffer_size);
 
 /// \brief 将字节流解析为common_head和options
@@ -48,7 +48,7 @@ int proto_to_str(const struct protocol_head * head, void * buffer, size_t buffer
 /// \param buffer_size 缓冲区大小
 /// \param common_head 储存解析后的common_head 若字节流不含有该字段则填NULL
 /// \param options 储存解析后的options 若字节流不含有该字段或不需要解析则填NULL
-/// \return 正常返回0 错误返回-1
+/// \return  正常时返回转换的字节数 错误返回-1
 int str_to_proto(const void * buffer, size_t buffer_size, struct protocol_common_head * common_head, struct protocol_common_options * options);
 
 

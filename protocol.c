@@ -15,12 +15,12 @@
 /// \param head 已填写好的报文头部
 /// \param buffer 储存转换结果的缓冲区
 /// \param buffer_size 缓冲区大小
-/// \return 正常返回0 错误返回-1
+/// \return  正常时返回转换的字节数 错误返回-1
 int proto_to_str(const struct protocol_head * head, void * buffer, size_t buffer_size) {
     uint8_t * p = buffer;
     if (head == NULL || p == NULL || buffer_size < 8
     || (head->options.flag_i && head->options.id > 0x1fffu)
-    || (head->options.flag_o && buffer_size < 12))
+    || (head->options.flag_o && buffer_size < 16))
         return -1;
 
     *p = head->common_head.stream_id;
@@ -44,10 +44,12 @@ int proto_to_str(const struct protocol_head * head, void * buffer, size_t buffer
         *(uint16_t *)p =  htons(head->options.checksum);
     p += sizeof(uint16_t);
 
-    if(head->options.flag_o)
+    if(head->options.flag_o) {
         *(uint64_t *)p = htonll(head->options.offset);
-    
-    return 0;
+        return 16;
+    } else {
+        return 8;
+    }
 }
 
 /// \brief 将字节流解析为common_head和options
@@ -60,9 +62,10 @@ int proto_to_str(const struct protocol_head * head, void * buffer, size_t buffer
 /// \param buffer_size 缓冲区大小
 /// \param common_head 储存解析后的common_head 若字节流不含有该字段则填NULL
 /// \param options 储存解析后的options 若字节流不含有该字段或不需要解析则填NULL
-/// \return 正常返回0 错误返回-1
+/// \return  正常时返回转换的字节数 错误返回-1
 int str_to_proto(const void * buffer, size_t buffer_size, struct protocol_common_head * common_head, struct protocol_common_options * options) {
     const uint8_t * p = buffer;
+    int original_size = buffer_size;
 
     if (common_head) {
         if (buffer_size < 4)
@@ -94,10 +97,13 @@ int str_to_proto(const void * buffer, size_t buffer_size, struct protocol_common
 
         buffer_size -= 4;
 
-        if (options->flag_o && buffer_size < 4)
-            return -1;
-        options->offset = ntohll(*(const uint64_t *)p);
+        if (options->flag_o) {
+            if (buffer_size < 8)
+                return -1;
+            options->offset = ntohll(*(const uint64_t *)p);
+            buffer_size -= 8;
+        }
     }
 
-    return 0;
+    return original_size - buffer_size;
 }
