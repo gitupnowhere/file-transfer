@@ -8,6 +8,8 @@ user_unit::user_unit(int sock) : sock(sock) {
     state = connected;
     pwd[0] = '\0';
     data_sock = -1;
+    memset(&recv_protocol_head_buffer, 0, sizeof(recv_protocol_head_buffer));
+    memset(recv_buffer, 0, sizeof(recv_buffer));
 }
 
 /// \brief 由用户名查询密码

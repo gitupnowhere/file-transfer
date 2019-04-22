@@ -1,14 +1,11 @@
-/// \file transmit.hpp
+/// \file transport.hpp
 ///
 
-#ifndef TRANSMIT_HPP
-#define TRANSMIT_HPP
+#ifndef TRANSPORT_HPP
+#define TRANSPORT_HPP
 
 #include "protocol.h"
 #include "user.hpp"
-
-
-
 
 /// \brief 处理put请求
 /// \param user 待处理事件的用户
@@ -23,15 +20,9 @@ int put(user_unit * user, char * filename);
 /// \return 正常返回0 错误返回-1
 int get(user_unit * user, uint8_t stream_id, char * filename);
 
-/// \brief 处理上传数据请求
-/// \param user 待处理事件的用户
+/// \brief 在数据连接上处理信息
+/// \param user 待处理的用户
 /// \return 正常返回0 错误返回-1
-int upload(user_unit * user);
+int transport(user_unit * user);
 
-/// \brief 处理下载数据请求
-/// \param user 待处理事件的用户
-/// \return 正常返回0 错误返回-1
-int download(user_unit * user);
-
-
-#endif //TRANSMIT_HPP
+#endif //TRANSPORT_HPP
