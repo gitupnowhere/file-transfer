@@ -3,6 +3,8 @@
 
 #include "user.hpp"
 
+#include <string.h>
+
 user_unit::user_unit(int sock) : sock(sock) {
     username[0] = '\0';
     state = connected;

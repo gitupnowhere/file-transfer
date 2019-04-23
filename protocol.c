@@ -5,6 +5,7 @@
 
 #include <string.h>
 #include <arpa/inet.h>
+#include <endian.h>
 
 
 /// \brief 将协议报文头部转换为可直接发送的字节流
@@ -45,7 +46,7 @@ int proto_to_str(const struct protocol_head * head, void * buffer, size_t buffer
     p += sizeof(uint16_t);
 
     if(head->options.flag_o) {
-        *(uint64_t *)p = htonll(head->options.offset);
+        *(uint64_t *)p = htobe64(head->options.offset);
         return 16;
     } else {
         return 8;
@@ -100,7 +101,7 @@ int str_to_proto(const void * buffer, size_t buffer_size, struct protocol_common
         if (options->flag_o) {
             if (buffer_size < 8)
                 return -1;
-            options->offset = ntohll(*(const uint64_t *)p);
+            options->offset = be64toh(*(const uint64_t *)p);
             buffer_size -= 8;
         }
     }
