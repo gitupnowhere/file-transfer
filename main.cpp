@@ -184,6 +184,13 @@ int main() {
                             case MKDIR:
                                 mkdir(&user, buffer+head_len);
                                 break;
+                            case CHPASSWD:
+                                change_password(&user, buffer+head_len);
+                                memset(&head, 0, sizeof(head));
+                                head.common_head.command = CHPASSWD_OK;
+                                head.common_head.length = 8;
+                                proto_to_str(&head, buffer, sizeof(buffer));
+                                send(user.sock, buffer, 8, 0);
                             default:
                                 memset(&head, 0, sizeof(head));
                                 head.common_head.command = BAD_CMD;

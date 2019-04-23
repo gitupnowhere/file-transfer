@@ -141,8 +141,11 @@ int str_to_proto(const void * buffer, size_t buffer_size, struct protocol_common
 #define	DATA_END    0x33u
 
 /// \brief 修改密码
-/// \details 在数据部分按照<用户名><空格><新密码>的方式填写
+/// \details 在数据部分填写新密码
 #define CHPASSWD    0x41u
+
+/// \brief 密码修改成功
+#define CHPASSWD_OK 0x42u
 
 /// \brief 命令无法解析
 #define  BAD_CMD    0xf1u
