@@ -8,6 +8,10 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 typedef uint8_t stream_id_t;
 typedef uint8_t command_t;
 typedef uint16_t length_t;
@@ -146,5 +150,8 @@ int str_to_proto(const void * buffer, size_t buffer_size, struct protocol_common
 /// \brief 校验和错误
 #define CHECKSUM_ERROR 0xf2u
 
+#if defined(__cplusplus)
+}
+#endif
 
 #endif //PROTOCOL_H
