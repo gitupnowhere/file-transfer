@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include <time.h>
 #include <vector>
 #include <random>
 
@@ -59,7 +60,7 @@ int main() {
         exit(errno);
     }
 
-    listen(ser_sock, 0);
+    listen(ser_sock, 10);
 
 
     std::unordered_map<int, user_unit> users;
@@ -71,8 +72,8 @@ int main() {
 
     std::unordered_map<int, char*> chap_data;
     std::unordered_map<int, int> temp_sock;
-
-    timeval t = select_timeout;
+    std::unordered_map<int, clock_t> temp_sock_timeout;
+    const clock_t data_link_timeout = 3 * CLOCKS_PER_SEC;
 
     for(;;) {
         FD_ZERO(&read_fds);
@@ -92,7 +93,7 @@ int main() {
             max_fd = std::max(max_fd, item.second);
         }
 
-
+        timeval t = select_timeout;
 
         if (select(max_fd+1 , &read_fds, &write_fds, NULL, &t) < 0)
             exit(errno);
@@ -145,11 +146,20 @@ int main() {
                         *(uint16_t *)(buffer+head_len) = random_port(temp_sock[user.sock]);
                         send(user.sock, buffer, 8+2, 0);
                         listen(temp_sock[user.sock], 2);
+                        temp_sock_timeout[user.sock] = clock() + data_link_timeout;
                         user.state = data_linking;
                         break;
                     case data_linking:
-                        if (! FD_ISSET(temp_sock[user.sock], &read_fds))
+                        if (! FD_ISSET(temp_sock[user.sock], &read_fds)) {
+                            if (clock() > temp_sock_timeout[user.sock]) {
+                                close(temp_sock[user.sock]);
+                                temp_sock.erase(user.data_sock);
+                                temp_sock_timeout.erase(user.data_sock);
+                                exit(&user);
+                                users.erase(user.sock);
+                            }
                             break;
+                        }
                         sockaddr_in addr1, addr2;
                         socklen_t len1, len2;
                         user.data_sock = accept(temp_sock[user.sock], (sockaddr *)&addr1, &len1);
@@ -159,6 +169,7 @@ int main() {
                             temp_sock.erase(user.data_sock);
                             user.state = ready;
                         } else {
+                            close(user.data_sock);
                             user.data_sock = -1;
                         }
                         break;
