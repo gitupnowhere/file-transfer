@@ -23,4 +23,26 @@ const uint16_t random_port_up_limit = 59999;
 
 const timeval select_timeout = {1, 0};
 
+/* 文件结构
+ *
+ * path
+ * |
+ * |--- password.csv
+ * |
+ * |--- files
+ *      |
+ *      |--- public
+ *      |
+ *      |--- [user A]
+ *      |
+ *      |--- [user B]
+ *      |
+ *      | ...
+ *
+ * password.csv 储存所有密码
+ * files 储存所有文件
+ * 用户最初的pwd在files
+ */
+const char path[] = "$(HOME)/file-transfer/";
+
 #endif //CONFIG_HPP
