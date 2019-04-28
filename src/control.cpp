@@ -63,7 +63,7 @@ int exit(const user_unit * user) {
         flg |= fclose(it.second);
     }
 
-    for (auto & it : user->read_fps) {
+    for (auto & it : user->write_fps) {
         flg |= fclose(it.second);
     }
 
