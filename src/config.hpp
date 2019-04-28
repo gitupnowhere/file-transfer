@@ -39,10 +39,11 @@ const timeval select_timeout = {1, 0};
  *      |
  *      | ...
  *
+ * path 总目录
  * password.csv 储存所有密码
  * files 储存所有文件
  * 用户最初的pwd在files
  */
-const char path[] = "$(HOME)/file-transfer/";
+const char path[] = "$(HOME)/other/";
 
 #endif //CONFIG_HPP
