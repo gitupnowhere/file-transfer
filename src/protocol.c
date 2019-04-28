@@ -103,6 +103,8 @@ int str_to_proto(const void * buffer, size_t buffer_size, struct protocol_common
                 return -1;
             options->offset = be64toh(*(const uint64_t *)p);
             buffer_size -= 8;
+        } else {
+            options->offset = 0;
         }
     }
 
