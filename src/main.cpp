@@ -70,7 +70,7 @@ int main() {
 
     static char buffer[buffer_size];
 
-    std::unordered_map<int, char*> chap_data;
+    std::unordered_map<int, uint32_t> chap_data;
     std::unordered_map<int, int> temp_sock;
     std::unordered_map<int, clock_t> temp_sock_timeout;
     const clock_t data_link_timeout = 3 * CLOCKS_PER_SEC;
