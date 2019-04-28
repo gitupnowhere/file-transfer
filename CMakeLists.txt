@@ -3,12 +3,5 @@ project(file_transfer)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(.)
-
-add_executable(file_transfer
-        src/control.cpp
-        src/identify.cpp
-        src/main.cpp
-        src/protocol.c
-        src/transport.cpp
-        src/user.cpp)
+add_subdirectory(src)
+add_subdirectory(test)
