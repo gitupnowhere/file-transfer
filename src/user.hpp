@@ -35,7 +35,7 @@ struct user_unit {
     /// 记录传输超时的时刻
     std::unordered_map<stream_id_t, clock_t> timeout_stamp;
 
-    /// 上传的stream_id到只读FILE*的映射
+    /// 上传的stream_id到写FILE*的映射
     std::unordered_map<stream_id_t, FILE*> write_fps;
 
     /// 用于缓存未处理完的报文的头部的信息
